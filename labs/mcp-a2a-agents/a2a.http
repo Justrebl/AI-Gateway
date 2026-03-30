@@ -1,4 +1,10 @@
-@apim_subscription_key = 9d6a78f45b5c4d19b3b6c0c9ef72113d
+@apim_subscription_key={{$dotenv apim_subscription_key}}
+@apim_resource_gateway_url={{$dotenv apim_resource_gateway_url}}
 
-GET https://apim-hgdfrdgyog5ze.azure-api.net/oncall-agent-a2a/.well-known/agent-card.json
+GET {{apim_resource_gateway_url}}/oncall-agent-a2a/.well-known/agent-card.json
+api-key: {{apim_subscription_key}}
+
+###
+
+GET {{apim_resource_gateway_url}}/weather-agent-a2a/.well-known/agent-card.json
 api-key: {{apim_subscription_key}}

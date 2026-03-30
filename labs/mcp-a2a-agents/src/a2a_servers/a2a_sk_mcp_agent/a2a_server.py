@@ -1,10 +1,11 @@
 import logging
-import httpx
+from contextlib import asynccontextmanager
 
 from starlette.applications import Starlette     # A2A wraps Starlette
 from a2a.server.apps import A2AStarletteApplication
 from a2a.server.request_handlers import DefaultRequestHandler
-from a2a.server.tasks import InMemoryTaskStore, InMemoryPushNotifier
+from a2a.server.tasks import InMemoryTaskStore
+from a2a.server.events import InMemoryQueueManager
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 
 from a2a_agent_exec import A2ALabAgentExecutor
@@ -59,33 +60,26 @@ def build_app(
     sk_agent_exec = A2ALabAgentExecutor(agent=sk_agent)
 
     # -------- 3. Wire the executor into the default request handler ---
-    httpx_client   = httpx.AsyncClient()
     request_handler = DefaultRequestHandler(
         agent_executor = sk_agent_exec,
         task_store     = InMemoryTaskStore(),
-        push_notifier  = InMemoryPushNotifier(httpx_client),
+        queue_manager=InMemoryQueueManager(),
     )
 
     # -------- 4. Build the A2A server via Starlette -------------------
+    @asynccontextmanager
+    async def _lifespan(application):
+        log.info("Opening SemanticKernelAgent Streamable connection …")
+        await sk_agent.__aenter__()
+        yield
+        log.info("Closing SemanticKernelAgent Streamable connection …")
+        await sk_agent.__aexit__(None, None, None)
+
     server = A2AStarletteApplication(
         agent_card   = _get_agent_card(A2A_URL),
         http_handler = request_handler,
     )
-    app: Starlette = server.build()
-
-    # -------- 5. Register lifecycle hooks to open/close the agent -----
-    @app.on_event("startup")
-    async def _startup() -> None:
-        log.info("Opening SemanticKernelAgent Streamable connection …")
-        await sk_agent.__aenter__()          # opens MCPSsePlugin
-        # NB: if you decide to make the *executor* the context
-        # manager (Option 2), just call `await sk_agent_exec.__aenter__()`
-
-    @app.on_event("shutdown")
-    async def _shutdown() -> None:
-        log.info("Closing SemanticKernelAgent Streamable connection …")
-        await sk_agent.__aexit__(None, None, None)
-        await httpx_client.aclose()
+    app: Starlette = server.build(lifespan=_lifespan)
 
     return app
 

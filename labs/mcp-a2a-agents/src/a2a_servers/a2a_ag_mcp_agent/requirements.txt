@@ -6,7 +6,7 @@ autogen-agentchat==0.6.4
 
 # A2A Labs
 jwcrypto
-a2a-sdk==0.2.3
+a2a-sdk==0.3.23
 
 openai==1.82.0
 uvicorn==0.34.2

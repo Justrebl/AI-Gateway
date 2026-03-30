@@ -18,8 +18,8 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
     }
     isAgent: true
     a2aProperties: {
-      agentCardPath: '/.well-known/agent.json'
-      agentCardBackendUrl: '${APIServiceURL}/.well-known/agent.json'
+      agentCardPath: '/.well-known/agent-card.json'
+      agentCardBackendUrl: '${APIServiceURL}/.well-known/agent-card.json'
     }
     jsonRpcProperties: {
       backendUrl: APIServiceURL

@@ -10,7 +10,7 @@
         }
     ],
     "paths": {
-        "/.well-known/agent.json": {
+        "/.well-known/agent-card.json": {
             "get": {
                 "summary": "well_known",
                 "operationId": "well-known",
