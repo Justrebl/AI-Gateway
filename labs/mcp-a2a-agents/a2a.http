@@ -1,0 +1,4 @@
+@apim_subscription_key = 9d6a78f45b5c4d19b3b6c0c9ef72113d
+
+GET https://apim-hgdfrdgyog5ze.azure-api.net/oncall-agent-a2a/.well-known/agent-card.json
+api-key: {{apim_subscription_key}}
