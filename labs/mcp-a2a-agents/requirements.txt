@@ -1,5 +1,9 @@
 # A2A Labs
+requests
 jwcrypto
 a2a-sdk==0.2.3
 httpx
 uvicorn
+mcp
+semantic_kernel
+agent_framework
