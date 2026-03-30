@@ -58,12 +58,12 @@
         "securitySchemes": {
             "apiKeyHeader": {
                 "type": "apiKey",
-                "name": "api-key",
+                "name": "x-api-key",
                 "in": "header"
             },
             "apiKeyQuery": {
                 "type": "apiKey",
-                "name": "api-key",
+                "name": "x-api-key",
                 "in": "query"
             }
         }

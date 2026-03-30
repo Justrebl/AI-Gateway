@@ -23,7 +23,7 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = {
       openidAuthenticationSettings: []
     }
     subscriptionKeyParameterNames: {
-      header: 'api-key'
+      header: 'x-api-key'
       query: 'subscription-key'
     }
     isCurrent: true

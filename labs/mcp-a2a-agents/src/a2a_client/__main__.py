@@ -49,7 +49,7 @@ async def cli(
 
     if apikey:
         headers = {
-            "api-key": f"{apikey}"
+            "x-api-key": f"{apikey}"
         }
 
     async with httpx.AsyncClient(timeout=30, headers=headers) as httpx_client:

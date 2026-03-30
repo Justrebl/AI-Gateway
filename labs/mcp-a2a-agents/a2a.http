@@ -2,9 +2,9 @@
 @apim_resource_gateway_url={{$dotenv apim_resource_gateway_url}}
 
 GET {{apim_resource_gateway_url}}/oncall-agent-a2a/.well-known/agent-card.json
-api-key: {{apim_subscription_key}}
+x-api-key: {{apim_subscription_key}}
 
 ###
 
 GET {{apim_resource_gateway_url}}/weather-agent-a2a/.well-known/agent-card.json
-api-key: {{apim_subscription_key}}
+x-api-key: {{apim_subscription_key}}
